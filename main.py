@@ -1,4 +1,4 @@
-import random
+import random, time
 import pygame
 
 WIDTH, HEIGHT = 1200, 700
@@ -8,6 +8,8 @@ BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
 GRAY = (50, 50, 50)
 LIGHT_GRAY = (230, 230, 230)
+GREEN = (0, 200, 0)
+RED = (230, 20, 20)
 
 BAR_SPACING = 50
 
@@ -38,6 +40,7 @@ def get_position_in_sorted(sorted_arr, number):
         if sorted_arr[i] == number:
             return i
 
+
 def draw_array_as_bars(arr):
     top_height = HEIGHT - 150
 
@@ -53,9 +56,25 @@ def draw_array_as_bars(arr):
     for i in range(0, len(arr)):
         height_of_bar = top_height * (percentage * (get_position_in_sorted(ref_arr, arr[i]) + 1))
         
-
         rect = pygame.Rect(pos, top_height - height_of_bar, width_of_bar, height_of_bar)
         pygame.draw.rect(WIN, WHITE, rect, 0)
+
+        pos += width_of_bar + BAR_SPACING
+
+    pos = BAR_SPACING
+
+    for i in range(0, len(arr)):
+        height_of_bar = top_height * (percentage * (get_position_in_sorted(ref_arr, arr[i]) + 1))
+
+        if i != len(arr) - 1:
+            if arr[i] > arr[i+1]:
+                rect = pygame.Rect(pos, top_height - height_of_bar, width_of_bar, height_of_bar)
+                pygame.draw.rect(WIN, RED, rect, 0)
+
+                return False
+        
+        rect = pygame.Rect(pos, top_height - height_of_bar, width_of_bar, height_of_bar)
+        pygame.draw.rect(WIN, GREEN, rect, 0)
 
         pos += width_of_bar + BAR_SPACING
 
